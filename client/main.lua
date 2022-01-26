@@ -292,8 +292,11 @@ if ESX.GetConfig().Multichar then
 			end)
 			repeat Citizen.Wait(200) until finished
 		end
-		DoScreenFadeOut(100)
-
+		-- Switch player out/in
+		TriggerEvent('esx:PlayerSwitchOutIn', playerData, isNew, skin)
+		SetPlayerInvincible(PlayerPedId(), true)
+		Citizen.Wait(800)
+		--DoScreenFadeOut(100)
 		SetCamActive(cam, false)
 		RenderScriptCams(false, false, 0, true, true)
 		cam = nil
@@ -302,9 +305,8 @@ if ESX.GetConfig().Multichar then
 		SetEntityCoordsNoOffset(playerPed, spawn.x, spawn.y, spawn.z, false, false, false, true)
 		SetEntityHeading(playerPed, spawn.heading)
 		if not isNew then TriggerEvent('skinchanger:loadSkin', skin or Characters[spawned].skin) end
-		Citizen.Wait(400)
-		DoScreenFadeIn(400)
-		repeat Citizen.Wait(200) until not IsScreenFadedOut()
+		--DoScreenFadeIn(400)
+		repeat Citizen.Wait(200) until not IsPlayerSwitchInProgress()
 		TriggerServerEvent('esx:onPlayerSpawn')
 		TriggerEvent('esx:onPlayerSpawn')
 		TriggerEvent('playerSpawned')
